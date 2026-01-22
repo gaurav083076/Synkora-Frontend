@@ -1,6 +1,12 @@
 import { io } from "socket.io-client";
-import { BASE_URL } from "./constants";
 
 export const createSocketConnection = () => {
-    return io(BASE_URL);
+  const socketUrl = location.hostname === "localhost" 
+    ? "http://localhost:3000"
+    : location.origin;
+  
+  return io(socketUrl, {
+    transports: ["websocket", "polling"],
+    withCredentials: true
+  });
 }
